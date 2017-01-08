@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<html lang="en">
+		<title>Tic Tac toe app</title>
+		<link rel="stylesheet" type="text/css" href="index.css">
+	</head>
+	<body>
+		<div class="wrapper" id="app">
+			<div v-on:click="write(index)" id="tic-tac-toe-board">
+				{{board}}
+			</div>
+		</div>
+		
+		<script src="vue.js"></script>
+		<script src="index.js"></script>
+	</body>
+</html>			
