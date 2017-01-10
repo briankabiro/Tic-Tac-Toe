@@ -1,14 +1,26 @@
 #board{
-	width:600px;
-	height:600px;
-	display: flex;
-	flex-flow:row wrap;
-	justify-content: center;
-
+	border-collapse:separate;
+	border-spacing:2px; 
 }
-#board *{
-	border:0.1em solid black;
-	height:150px;
-	width:150px;
-	cursor: pointer;
+td{
+	vertical-align: middle;
+}
+.square {
+	width: 15vw;
+	height: 15vw;
+	cursor:pointer;
+	color:white;
+	background:#6C7A89;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	font-size: 15vw;
+	line-height: 15vw;
+	font-family: sans-serif;
+}
+.square:hover{
+	opacity: .8;
+}
+.square.active {
+	background: #00B16A;
 }

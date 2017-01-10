@@ -7,18 +7,22 @@ write winning combination and function that checks if you have won from array
 
 */ 
 
-Vue.component('box', {
-	template:'<div>{{value}}</div>',
-	data:function(){
-		board:['','','X','O','','','','','']
-	}
-})
 
-new Vue({
-	el:"#tic-tac-toe-board",
+var app = new Vue({
+	el:"#board",
 	data:{
-		
-		currentMove:"X"
+		board:[[{val:'',bg:''},{val:'',bg:''},{val:'',bg:''}],
+		[{val:'',bg:''},{val:'',bg:''},{val:'',bg:''}],
+		[{val:'',bg:''},{val:'',bg:''},{val:'',bg:''}]],
+		turn:"X"
 	},
+	methods:{
+		mark(box){
+			if(box.val == ''){
+				box.val = this.turn;
+				this.turn = this.turn == 'X' ? 'O':'X';
+			}
+		}
+	}
 })
 

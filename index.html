@@ -9,9 +9,17 @@
 	</head>
 	<body>
 		<div class="wrapper" id="app">
-			<div id="tic-tac-toe-board">
-				<box v-for="(value, index) in board"></box>
-			</div>
+			<table id="board">
+				<tr v-for='row in board'>
+					<td v-for='box in row'>
+					<div class="square"@click='mark(box)'
+						:class='{"square active":box.bg}'>
+						{{box.val}}
+						</div>
+
+					</td>
+				</tr>
+			</table>
 		</div>
 		
 		<script src="vue.js"></script>
