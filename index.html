@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,8 +13,7 @@
 			<table id="board">
 				<tr v-for='row in board'>
 					<td v-for='box in row'>
-					<div class="square"@click='mark(box)'
-						:class='{"square active":box.bg}'>
+					<div class="square"@click='mark(box)'>
 						{{box.val}}
 						</div>
 
