@@ -1,4 +1,5 @@
 
+
 /*add hover, write a function that loops through the array & takes data,
 how to add parameters to a function using v-on
 	
@@ -12,43 +13,91 @@ Find way to add machine learning to project
 
 
 var app = new Vue({
-	el:"#board",
+	el:"#app",
 	data:{
 		board:[[{val:''},{val:''},{val:''}],
 		[{val:''},{val:''},{val:''}],
 		[{val:''},{val:''},{val:''}]],
-		turn:"X"
+		turn:"X",
+		winner:"",
+		finalMessage:"",
+		windex:[
+			[[0,0], [0,1], [0,2]],
+      		[[1,0], [1,1], [1,2]],
+    		[[2,0], [2,1], [2,2]],
+  	  		[[0,0], [1,0], [2,0]],
+	    	[[0,1], [1,1], [2,1]],
+	    	[[0,2], [1,2], [2,2]],
+	  		[[0,0], [1,1], [2,2]],
+	  		[[0,2], [1,1], [2,0]]
+		],
+		game:{
+			over:false
+		}
 	},
+	/* y[0] = row y[1] = column */
 	computed:{
-		/*
-			var winArr  = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
-		*/
+		arr(){
+			return this.board.map(x => x.map( y => y.val ));
+		},
+		winArr(){
+			return this.windex.map(x => x.map( y => this.board[y[0]][y[1]].val))
+		},
+		check(){
+			let over = false;
+			let windex = this.winArr;
+			let draw = this.arr.every(x => x.every( y => y != ''))
+
+			windex.forEach((x) => {
+				if(x.every( y => y =='X')){
+					this.winner = 'X'
+					over = true;
+				}
+				if(x.every( y => y =="O")){
+					this.winner = 'O'
+					over = true;
+				}
+				if(draw){
+					this.finalMessage = "Unfortunately. Nobody Won"
+				}
+				if(over == true){
+					this.game.over = true;
+					this.finalMessage = "Congratulations, " + this.winner + "! You won";
+				}
+			})
+		}			
 	},
 	methods:{
 		mark(box){
-			if(box.val == ''){
+			if(!this.game.over){
+				if(box.val == ''){
 				box.val = this.turn;
 				this.turn = this.turn == 'X' ? 'O':'X';
-				this.computerPlay();
-			}
+				this.check;
+				this.computerPlay()				
+				}
+			}	
 		},
 		computerPlay(){
-				const board = this.board;
-				let row = Math.floor(Math.random() * 2);
-				let col = Math.floor(Math.random() * 2);
-				if(board[row][col].val == ''){
-					board[row][col].val = this.turn
-					this.turn = this.turn == 'X' ? 'O':'X';
-				}else setTimeout(this.computerPlay(), 1000)
-			},
-			/* 3= board[0][2]
-				check(){
-					forEach(combo in winArr){
-						if(board[row][col].val == combo[1])
-					}
+				if(!this.game.over){
+					const board = this.board;
+					let row = Math.floor(Math.random() * 2);
+					let col = Math.floor(Math.random() * 2);
 					
+					if(board[row][col].val == ''){
+						board[row][col].val = this.turn
+						this.turn = this.turn == 'X' ? 'O':'X';
+					}else this.computerPlay
+					
+					this.check;	
 				}
-			*/
+			},
+			reset(){
+				this.board.forEach(x => x.map(y => y.val = ""))
+				this.finalMessage = "";
+				this.game.over = false;
+				console.log(this.board);
+			}
 		}
 })
 
