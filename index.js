@@ -19,7 +19,7 @@ var app = new Vue({
 		[{val:''},{val:''},{val:''}],
 		[{val:''},{val:''},{val:''}]],
 		turn:"X",
-		winner:"",
+		winner:null,
 		finalMessage:"",
 		windex:[
 			[[0,0], [0,1], [0,2]],
@@ -46,20 +46,22 @@ var app = new Vue({
 		check(){
 			let over = false;
 			let windex = this.winArr;
-			let draw = this.arr.every(x => x.every( y => y != ''))
+			let allFull = this.arr.every(x => x.every( y => y != ''))
 
 			windex.forEach((x) => {
 				if(x.every( y => y =='X')){
 					this.winner = 'X'
 					over = true;
-				}
-				if(x.every( y => y =="O")){
+				}else if(x.every( y => y =="O")){
 					this.winner = 'O'
 					over = true;
 				}
-				if(draw){
+
+				if(allFull && !over){
 					this.finalMessage = "Unfortunately. Nobody Won"
+					this.game.over=true;
 				}
+					
 				if(over == true){
 					this.game.over = true;
 					this.finalMessage = "Congratulations, " + this.winner + "! You won";
@@ -74,20 +76,24 @@ var app = new Vue({
 				box.val = this.turn;
 				this.turn = this.turn == 'X' ? 'O':'X';
 				this.check;
-				this.computerPlay()				
+				setTimeout(this.computerPlay.bind(this), 1000)				
 				}
 			}	
 		},
 		computerPlay(){
 				if(!this.game.over){
-					const board = this.board;
-					let row = Math.floor(Math.random() * 2);
-					let col = Math.floor(Math.random() * 2);
+					let board = this.board;
+					let row = Math.floor(Math.random() * 3);
+					let col = Math.floor(Math.random() * 3);
 					
 					if(board[row][col].val == ''){
 						board[row][col].val = this.turn
+						console.log('Computer Played')
 						this.turn = this.turn == 'X' ? 'O':'X';
-					}else this.computerPlay
+					}else {
+						this.computerPlay()
+						console.log("Used route 2")
+					}
 					
 					this.check;	
 				}
@@ -96,7 +102,6 @@ var app = new Vue({
 				this.board.forEach(x => x.map(y => y.val = ""))
 				this.finalMessage = "";
 				this.game.over = false;
-				console.log(this.board);
 			}
 		}
 })
